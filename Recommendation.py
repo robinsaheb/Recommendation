@@ -88,9 +88,23 @@ print(1/ (1 + (sqrt(pow(8-7,2)+pow(7-7,2)))))
 
 # Returns a distance-based similarity between person1 and person2
 
-def sim_distance(person1, person2):
+def sim_distance(prefs, person1, person2):
     # Get the list of shared_item
     si = {}
+    for item in prefs[person1]:
+        for item in prefs[person2]:
+            si[item] = 1
+    # If they have no rating in common return 0
+    if len(si) ==0:
+        return 0
+    
+    # Add up the squares of all the difference
+    sum_of_squares=sum([pow(prefs[person1][item] -
+                           prefs[person2][item])
+      for item in prefs[person1] if item in prefs[person2]])
+    
+    return 1/(1 + sum_of_squares)
+
     
 
     
