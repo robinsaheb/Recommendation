@@ -149,7 +149,7 @@ for i, txt in enumerate(df1.movie):
 plt.show()
 
 
-def sim_pearsonr(data, user1, user2):
+def sim_pearson(data, user1, user2):
     df3 = create_movie_user_df(data, user1, user2)
     s = pearsonr(df3[user1], df3[user2])
     if s[0] >= s[1]:
@@ -157,7 +157,26 @@ def sim_pearsonr(data, user1, user2):
     else:
         return s[1]    
 
-print(sim_pearsonr(movie_user_preferences, 'Sam', 'Julia'))
+pearson_score = sim_pearson(movie_user_preferences, 'Sam', 'Julia')
+#print(pearson_score)
+
+
+# Ranking the Users
+
+def top_matches(data, user1, n = 5, similarity = sim_pearson):
+    scores = [(similarity(data, user1, user2), user2)
+    for user2 in data if user2 != user1]
+    
+    # Sorting 
+    scores.sort()
+    scores.reverse()
+    return scores[0:n]
+
+toby_top = top_matches(movie_user_preferences, 'Toby', n = 3, similarity = sim_pearson)
+print(toby_top)
+
+
+
 
 
    
