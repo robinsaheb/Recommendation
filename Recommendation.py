@@ -105,6 +105,65 @@ def sim_distance(prefs, person1, person2):
     
     return 1/(1 + sum_of_squares)
 
+# A function to return simillar movies
+    
+def create_movie_user_df(input_data, user1, user2):
+      data = []
+      for movie in input_data[user1].keys():
+          if movie in input_data[user2].keys():
+              try:
+                  data.append( (movie
+                  ,input_data[user1][movie]
+                  ,input_data[user2][movie]) )
+              except: 
+                 pass
+      return pd.DataFrame(data = data, columns = ['movie', user1,
+                      user2])
+
+df = create_movie_user_df(movie_user_preferences, 'Sam', 'William')
+print(df)
+    
+# Plotting wrt to sam and william
+
+plt.scatter(df.Sam, df.William)
+plt.xlabel('Sam')
+plt.ylabel('William')
+for i, txt in enumerate(df.movie):
+    plt.annotate(txt, (df.Sam[i], df.William[i]))
+plt.show()
+
+from scipy.stats import pearsonr
+
+# Introduction to pearson correlation
+#print(pearsonr(df.Sam, df.William))
+
+df1 = create_movie_user_df(movie_user_preferences, 'Sam', 'Julia')
+
+# Plotting wrt Sam Julia
+
+plt.scatter(df1.Sam, df1.Julia)
+plt.xlabel('Sam')
+plt.ylabel('Julia')
+for i, txt in enumerate(df1.movie):
+    plt.annotate(txt, (df1.Sam[i], df1.Julia[i]))
+plt.show()
+
+# Creating a function that returns the correlation value of the users.
+
+def sim_pearsonr(data, user1, user2):
+    # Get the list of mutually related items.
+    s = {}
+    
+    for item in data[user1]:
+        if item in data[user2]:
+            s[item] = 1
+    n = len(s)
+    
+    # If no item are common.
+    
+    if n == 0:
+        return 0
+    
     
 
     
