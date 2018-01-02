@@ -135,7 +135,7 @@ plt.show()
 from scipy.stats import pearsonr
 
 # Introduction to pearson correlation
-#print(pearsonr(df.Sam, df.William))
+s = pearsonr(df.Sam, df.William)
 
 df1 = create_movie_user_df(movie_user_preferences, 'Sam', 'Julia')
 
@@ -148,23 +148,19 @@ for i, txt in enumerate(df1.movie):
     plt.annotate(txt, (df1.Sam[i], df1.Julia[i]))
 plt.show()
 
-# Creating a function that returns the correlation value of the users.
 
 def sim_pearsonr(data, user1, user2):
-    # Get the list of mutually related items.
-    s = {}
-    
-    for item in data[user1]:
-        if item in data[user2]:
-            s[item] = 1
-    n = len(s)
-    
-    # If no item are common.
-    
-    if n == 0:
-        return 0
-    
-    
+    df3 = create_movie_user_df(data, user1, user2)
+    s = pearsonr(df3[user1], df3[user2])
+    if s[0] >= s[1]:
+        return s[0]
+    else:
+        return s[1]    
+
+print(sim_pearsonr(movie_user_preferences, 'Sam', 'Julia'))
+
+
+   
 
     
 
