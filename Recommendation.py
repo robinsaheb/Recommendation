@@ -209,6 +209,55 @@ def getRecommendations(prefs,person,similarity=sim_pearson):
 
 recommendations_toby = getRecommendations(movie_user_preferences,'Toby')
 print(recommendations_toby)
+print("")
+print("")
+
+
+""" # Item Based Collaberative Filtering 
+
+Item-based collaborative  ltering  nds the similarities between items. 
+This is then used to  nd new recommendations for a user.
+
+"""
+
+# First we will invert the data, by putting movies first and users second.
+
+def transform_data(data):
+    result = {}
+    for person in data:
+        for movie in data[person]:
+            result.setdefault(movie, {})
+            result[movie][person] = data[person][movie]
+    return result
+
+user_movie_preferences = transform_data(movie_user_preferences)
+print(user_movie_preferences)
+print("")
+print("")
+
+
+# Create a dictionary to show items simillar to each other.
+
+def calculate_similarity_items(data, n = 10):
+    
+    result = {}
+    c = 0
+    for item in data:
+        c += 1
+        if c%100 ==0:
+            print("%d / %d" % (c,len(data)))
+        scores = top_matches(data, item, n= n, similarity = sim_pearson)
+        result[item] = scores
+    return result
+
+itemsim = calculate_similarity_items(user_movie_preferences, n = 10)
+print(itemsim)
+
+    
+            
+
+
+
 
 
    
