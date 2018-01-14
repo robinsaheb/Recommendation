@@ -268,7 +268,8 @@ def get_recommendationItems(prefs,itemMatch,user):
            for (similarity, item2) in itemMatch[item]:
                
                # Ignore if this user has already rated this item
-               if item2 in userRatings: continue
+               if item2 in userRatings:
+                   continue
                
                # Weighted sum of rating times similarity
                scores.setdefault(item2, 0)
@@ -287,7 +288,15 @@ def get_recommendationItems(prefs,itemMatch,user):
 
 recommendations = get_recommendationItems(movie_user_preferences, itemsim, 'Toby')
 print(recommendations)
-                
+print("")
+print("")
+
+         
+            
+            
+        
+    
+
     
             
 
